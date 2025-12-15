@@ -1,0 +1,2 @@
+export { SchemaEditor } from './SchemaEditor';
+
