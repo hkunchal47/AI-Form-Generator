@@ -21,23 +21,24 @@ export const FormPreview: React.FC<FormPreviewProps> = ({ schema }) => {
 
   const renderFields = (fields: FormField[], parentField: FormField | null = null): React.ReactNode => {
     return fields.map(field => {
-      if (!field.id) return null;
+      const fieldId = field.id;
+      if (!fieldId) return null;
 
       const isVisible = validationService.isFieldVisible(field, parentField, responses);
       if (!isVisible && parentField) return null;
 
       return (
-        <div key={field.id} className={parentField ? 'field-renderer__conditional' : ''}>
+        <div key={fieldId} className={parentField ? 'field-renderer__conditional' : ''}>
           <FormFieldRenderer
             field={field}
-            value={responses[field.id]}
-            onChange={(value) => handleFieldChange(field.id!, value)}
+            value={responses[fieldId]}
+            onChange={(value) => handleFieldChange(fieldId, value)}
           />
           
-          {field.conditions && responses[field.id] && (
+          {field.conditions && responses[fieldId] && (
             <>
               {Object.entries(field.conditions).map(([conditionValue, conditionalFields]) => {
-                if (responses[field.id] === conditionValue && conditionalFields.length > 0) {
+                if (responses[fieldId] === conditionValue && conditionalFields.length > 0) {
                   return (
                     <div key={conditionValue} style={{ marginTop: '16px' }}>
                       {renderFields(conditionalFields, field)}
